@@ -1,0 +1,147 @@
+/* Marketplace Styles */
+.marketplace-content {
+    min-height: calc(100vh - 76px);
+    padding-top: 76px;
+}
+
+/* Product Card Styles */
+.product-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.product-card .card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.product-card .card-body {
+    padding: 1.5rem;
+}
+
+.product-card .card-title {
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.product-card .card-text {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+/* Cart Styles */
+.cart-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.cart-item-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.cart-item-title {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.cart-item-price {
+    color: #198754;
+    font-weight: 600;
+}
+
+.cart-item-quantity {
+    width: 60px;
+    text-align: center;
+}
+
+.cart-summary {
+    position: sticky;
+    bottom: 0;
+    background-color: #fff;
+    padding: 1rem;
+    margin: -1rem;
+    margin-top: 0;
+}
+
+/* Filter Styles */
+.form-select:focus {
+    border-color: #198754;
+    box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
+}
+
+/* Search Input Styles */
+.input-group .form-control:focus {
+    border-color: #198754;
+    box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
+}
+
+/* Category Badge Styles */
+.category-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.35rem 0.65rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* Quantity Controls */
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.quantity-control button {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+/* Loading Animation */
+.loading-spinner {
+    width: 3rem;
+    height: 3rem;
+    border: 0.25rem solid #dee2e6;
+    border-top-color: #198754;
+    border-radius: 50%;
+    animation: spinner 1s linear infinite;
+}
+
+@keyframes spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .marketplace-content {
+        padding-top: 60px;
+    }
+
+    .product-card .card-img-top {
+        height: 180px;
+    }
+
+    .cart-item-img {
+        width: 60px;
+        height: 60px;
+    }
+}
