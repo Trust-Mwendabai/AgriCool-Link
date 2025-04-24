@@ -2,40 +2,40 @@ document.addEventListener('DOMContentLoaded', function() {
     // Product data structure
     const products = {
         vegetables: [
-            { id: 'v1', name: 'Fresh Tomatoes', price: 25, unit: 'kg', image: '../images/tomatoes.jpg' },
-            { id: 'v2', name: 'Fresh Cabbage', price: 15, unit: 'head', image: '../images/cabbage.jpg' },
-            { id: 'v3', name: 'Green Peppers', price: 30, unit: 'kg', image: '../images/peppers.jpg' },
-            { id: 'v4', name: 'Carrots', price: 20, unit: 'kg', image: '../images/carrots.jpg' }
+            { id: 'v1', name: 'Fresh Tomatoes', price: 25, unit: 'kg', image: '../images/products/veg-tomatoes.jpg' },
+            { id: 'v2', name: 'Fresh Cabbage', price: 15, unit: 'head', image: '../images/products/veg-cabbage.jpg' },
+            { id: 'v3', name: 'Green Peppers', price: 30, unit: 'kg', image: '../images/products/veg-peppers.jpg' },
+            { id: 'v4', name: 'Carrots', price: 20, unit: 'kg', image: '../images/products/veg-carrots.jpg' }
         ],
         fruits: [
-            { id: 'f1', name: 'Sweet Mangoes', price: 30, unit: 'kg', image: '../images/mangoes.jpg' },
-            { id: 'f2', name: 'Ripe Bananas', price: 20, unit: 'dozen', image: '../images/bananas.jpg' },
-            { id: 'f3', name: 'Fresh Oranges', price: 25, unit: 'kg', image: '../images/oranges.jpg' },
-            { id: 'f4', name: 'Pineapples', price: 35, unit: 'piece', image: '../images/pineapples.jpg' }
+            { id: 'f1', name: 'Sweet Mangoes', price: 30, unit: 'kg', image: '../images/products/fruit-mangoes.jpg' },
+            { id: 'f2', name: 'Ripe Bananas', price: 20, unit: 'dozen', image: '../images/products/fruit-bananas.jpg' },
+            { id: 'f3', name: 'Fresh Oranges', price: 25, unit: 'kg', image: '../images/products/fruit-oranges.jpg' },
+            { id: 'f4', name: 'Pineapples', price: 35, unit: 'piece', image: '../images/products/fruit-pineapples.jpg' }
         ],
         grains: [
-            { id: 'g1', name: 'White Maize', price: 180, unit: '50kg', image: '../images/maize.jpg' },
-            { id: 'g2', name: 'Local Rice', price: 250, unit: '50kg', image: '../images/rice.jpg' },
-            { id: 'g3', name: 'Sorghum', price: 160, unit: '50kg', image: '../images/sorghum.jpg' },
-            { id: 'g4', name: 'Millet', price: 170, unit: '50kg', image: '../images/millet.jpg' }
+            { id: 'g1', name: 'White Maize', price: 180, unit: '50kg', image: '../images/products/grain-maize.jpg' },
+            { id: 'g2', name: 'Local Rice', price: 250, unit: '50kg', image: '../images/products/grain-rice.jpg' },
+            { id: 'g3', name: 'Sorghum', price: 160, unit: '50kg', image: '../images/products/grain-sorghum.jpg' },
+            { id: 'g4', name: 'Millet', price: 170, unit: '50kg', image: '../images/products/grain-millet.jpg' }
         ],
         tubers: [
-            { id: 't1', name: 'Sweet Potatoes', price: 35, unit: 'kg', image: '../images/sweet-potatoes.jpg' },
-            { id: 't2', name: 'Fresh Cassava', price: 25, unit: 'kg', image: '../images/cassava.jpg' },
-            { id: 't3', name: 'Irish Potatoes', price: 40, unit: 'kg', image: '../images/potatoes.jpg' },
-            { id: 't4', name: 'Yams', price: 45, unit: 'kg', image: '../images/yams.jpg' }
+            { id: 't1', name: 'Sweet Potatoes', price: 35, unit: 'kg', image: '../images/products/tuber-sweet-potatoes.jpg' },
+            { id: 't2', name: 'Fresh Cassava', price: 25, unit: 'kg', image: '../images/products/tuber-cassava.jpg' },
+            { id: 't3', name: 'Irish Potatoes', price: 40, unit: 'kg', image: '../images/products/tuber-irish-potatoes.jpg' },
+            { id: 't4', name: 'Yams', price: 45, unit: 'kg', image: '../images/products/tuber-yams.jpg' }
         ],
         legumes: [
-            { id: 'l1', name: 'Red Beans', price: 45, unit: 'kg', image: '../images/beans.jpg' },
-            { id: 'l2', name: 'Groundnuts', price: 40, unit: 'kg', image: '../images/groundnuts.jpg' },
-            { id: 'l3', name: 'Soybeans', price: 50, unit: 'kg', image: '../images/soybeans.jpg' },
-            { id: 'l4', name: 'Green Peas', price: 55, unit: 'kg', image: '../images/peas.jpg' }
+            { id: 'l1', name: 'Red Beans', price: 45, unit: 'kg', image: '../images/products/legume-beans.jpg' },
+            { id: 'l2', name: 'Groundnuts', price: 40, unit: 'kg', image: '../images/products/legume-groundnuts.jpg' },
+            { id: 'l3', name: 'Soybeans', price: 50, unit: 'kg', image: '../images/products/legume-soybeans.jpg' },
+            { id: 'l4', name: 'Green Peas', price: 55, unit: 'kg', image: '../images/products/legume-peas.jpg' }
         ],
         herbs: [
-            { id: 'h1', name: 'Fresh Chili', price: 50, unit: 'kg', image: '../images/chili.jpg' },
-            { id: 'h2', name: 'Fresh Ginger', price: 55, unit: 'kg', image: '../images/ginger.jpg' },
-            { id: 'h3', name: 'Garlic', price: 60, unit: 'kg', image: '../images/garlic.jpg' },
-            { id: 'h4', name: 'Turmeric', price: 65, unit: 'kg', image: '../images/turmeric.jpg' }
+            { id: 'h1', name: 'Fresh Chili', price: 50, unit: 'kg', image: '../images/products/herb-chili.jpg' },
+            { id: 'h2', name: 'Fresh Ginger', price: 55, unit: 'kg', image: '../images/products/herb-ginger.jpg' },
+            { id: 'h3', name: 'Garlic', price: 60, unit: 'kg', image: '../images/products/herb-garlic.jpg' },
+            { id: 'h4', name: 'Turmeric', price: 65, unit: 'kg', image: '../images/products/herb-turmeric.jpg' }
         ]
     };
 

@@ -83,6 +83,68 @@
 
             <!-- Dashboard Content -->
             <div class="container-fluid py-4">
+                <!-- Product Upload Form -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0">Upload New Product</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="productUploadForm" class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="productName" class="form-label">Product Name</label>
+                                        <input type="text" class="form-control" id="productName" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="category" class="form-label">Category</label>
+                                        <select class="form-select" id="category" required>
+                                            <option value="">Choose category...</option>
+                                            <option value="vegetables">Vegetables</option>
+                                            <option value="fruits">Fruits</option>
+                                            <option value="grains">Grains</option>
+                                            <option value="dairy">Dairy</option>
+                                            <option value="meat">Meat</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="price" class="form-label">Price (ZMW)</label>
+                                        <input type="number" class="form-control" id="price" min="0" step="0.01" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="quantity" class="form-label">Quantity</label>
+                                        <input type="number" class="form-control" id="quantity" min="1" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="unit" class="form-label">Unit</label>
+                                        <select class="form-select" id="unit" required>
+                                            <option value="">Choose unit...</option>
+                                            <option value="kg">Kilograms (kg)</option>
+                                            <option value="g">Grams (g)</option>
+                                            <option value="pieces">Pieces</option>
+                                            <option value="boxes">Boxes</option>
+                                            <option value="bags">Bags</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="description" class="form-label">Description</label>
+                                        <textarea class="form-control" id="description" rows="3" required></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="productImage" class="form-label">Product Image</label>
+                                        <input type="file" class="form-control" id="productImage" accept="image/*" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="bi bi-cloud-upload"></i> Upload Product
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Overview Cards -->
                 <div class="row g-4 mb-4">
                     <div class="col-md-6 col-lg-3">
