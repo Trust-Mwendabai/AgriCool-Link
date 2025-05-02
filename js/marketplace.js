@@ -1,216 +1,125 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Product data structure
-    const products = {
-        vegetables: [
-            { id: 'v1', name: 'Fresh Tomatoes', price: 25, unit: 'kg', image: '../images/products/veg-tomatoes.jpg' },
-            { id: 'v2', name: 'Fresh Cabbage', price: 15, unit: 'head', image: '../images/products/veg-cabbage.jpg' },
-            { id: 'v3', name: 'Green Peppers', price: 30, unit: 'kg', image: '../images/products/veg-peppers.jpg' },
-            { id: 'v4', name: 'Carrots', price: 20, unit: 'kg', image: '../images/products/veg-carrots.jpg' }
-        ],
-        fruits: [
-            { id: 'f1', name: 'Sweet Mangoes', price: 30, unit: 'kg', image: '../images/products/fruit-mangoes.jpg' },
-            { id: 'f2', name: 'Ripe Bananas', price: 20, unit: 'dozen', image: '../images/products/fruit-bananas.jpg' },
-            { id: 'f3', name: 'Fresh Oranges', price: 25, unit: 'kg', image: '../images/products/fruit-oranges.jpg' },
-            { id: 'f4', name: 'Pineapples', price: 35, unit: 'piece', image: '../images/products/fruit-pineapples.jpg' }
-        ],
-        grains: [
-            { id: 'g1', name: 'White Maize', price: 180, unit: '50kg', image: '../images/products/grain-maize.jpg' },
-            { id: 'g2', name: 'Local Rice', price: 250, unit: '50kg', image: '../images/products/grain-rice.jpg' },
-            { id: 'g3', name: 'Sorghum', price: 160, unit: '50kg', image: '../images/products/grain-sorghum.jpg' },
-            { id: 'g4', name: 'Millet', price: 170, unit: '50kg', image: '../images/products/grain-millet.jpg' }
-        ],
-        tubers: [
-            { id: 't1', name: 'Sweet Potatoes', price: 35, unit: 'kg', image: '../images/products/tuber-sweet-potatoes.jpg' },
-            { id: 't2', name: 'Fresh Cassava', price: 25, unit: 'kg', image: '../images/products/tuber-cassava.jpg' },
-            { id: 't3', name: 'Irish Potatoes', price: 40, unit: 'kg', image: '../images/products/tuber-irish-potatoes.jpg' },
-            { id: 't4', name: 'Yams', price: 45, unit: 'kg', image: '../images/products/tuber-yams.jpg' }
-        ],
-        legumes: [
-            { id: 'l1', name: 'Red Beans', price: 45, unit: 'kg', image: '../images/products/legume-beans.jpg' },
-            { id: 'l2', name: 'Groundnuts', price: 40, unit: 'kg', image: '../images/products/legume-groundnuts.jpg' },
-            { id: 'l3', name: 'Soybeans', price: 50, unit: 'kg', image: '../images/products/legume-soybeans.jpg' },
-            { id: 'l4', name: 'Green Peas', price: 55, unit: 'kg', image: '../images/products/legume-peas.jpg' }
-        ],
-        herbs: [
-            { id: 'h1', name: 'Fresh Chili', price: 50, unit: 'kg', image: '../images/products/herb-chili.jpg' },
-            { id: 'h2', name: 'Fresh Ginger', price: 55, unit: 'kg', image: '../images/products/herb-ginger.jpg' },
-            { id: 'h3', name: 'Garlic', price: 60, unit: 'kg', image: '../images/products/herb-garlic.jpg' },
-            { id: 'h4', name: 'Turmeric', price: 65, unit: 'kg', image: '../images/products/herb-turmeric.jpg' }
-        ]
-    };
-
     // Cart state
     let cart = [];
-    const itemsPerPage = 12;
-    let currentPage = 1;
-    let currentCategory = 'all';
-    let currentSort = 'popular';
+    
+    // Initialize cart from localStorage if available
+    if (localStorage.getItem('agricoolCart')) {
+        try {
+            cart = JSON.parse(localStorage.getItem('agricoolCart'));
+            updateCartBadge();
+            updateCheckoutButton();
+        } catch (e) {
+            console.error('Error loading cart from localStorage:', e);
+            localStorage.removeItem('agricoolCart');
+            cart = [];
+        }
+    }
+    
+    // Initialize cart display
+    updateCartDisplay();
 
-    // Initialize filters
-    const categoryFilter = document.getElementById('categoryFilter');
-    const sortFilter = document.getElementById('sortFilter');
-    const searchInput = document.getElementById('searchInput');
-
-    // Filter event listeners
-    categoryFilter.addEventListener('change', function() {
-        currentCategory = this.value;
-        currentPage = 1;
-        updateProducts();
-    });
-
-    sortFilter.addEventListener('change', function() {
-        currentSort = this.value;
-        updateProducts();
-    });
-
-    searchInput.addEventListener('input', debounce(function() {
-        updateProducts();
-    }, 300));
-
-    // Pagination event listeners
-    document.querySelectorAll('.pagination .page-link').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const page = this.textContent;
-            if (page === 'Previous') {
-                if (currentPage > 1) currentPage--;
-            } else if (page === 'Next') {
-                const maxPages = Math.ceil(getAllProducts().length / itemsPerPage);
-                if (currentPage < maxPages) currentPage++;
-            } else {
-                currentPage = parseInt(page);
-            }
-            updateProducts();
-            updatePagination();
+    // Add event listeners to all add-to-cart buttons
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.dataset.id;
+            const productName = this.dataset.name;
+            const productPrice = parseFloat(this.dataset.price);
+            const productUnit = this.dataset.unit;
+            const productImage = this.dataset.image;
+            
+            addToCart(productId, productName, productPrice, productUnit, productImage);
         });
     });
-
-    // Get all products based on current filters
-    function getAllProducts() {
-        let allProducts = [];
-        if (currentCategory === 'all') {
-            Object.values(products).forEach(category => {
-                allProducts = allProducts.concat(category);
-            });
-        } else {
-            allProducts = products[currentCategory] || [];
+    
+    // Product detail functionality
+    document.querySelectorAll('.product-detail-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.dataset.id;
+            const productName = this.dataset.name;
+            const productPrice = parseFloat(this.dataset.price);
+            const productUnit = this.dataset.unit;
+            const productImage = this.dataset.image;
+            const productDescription = this.dataset.description;
+            const productFarmer = this.dataset.farmer;
+            const productCategory = this.dataset.category;
+            
+            // Populate modal
+            document.querySelector('.product-detail-image').src = productImage;
+            document.querySelector('.product-detail-name').textContent = productName;
+            document.querySelector('.product-detail-description').textContent = productDescription;
+            document.querySelector('.product-detail-price').textContent = `K${productPrice}/${productUnit}`;
+            document.querySelector('.product-detail-farmer').textContent = `Seller: ${productFarmer}`;
+            document.querySelector('.product-detail-category').textContent = `Category: ${productCategory}`;
+            
+            document.querySelector('.product-detail-qty').value = 1;
+            
+            document.querySelector('.add-to-cart-detail-btn').dataset.id = productId;
+            document.querySelector('.add-to-cart-detail-btn').dataset.name = productName;
+            document.querySelector('.add-to-cart-detail-btn').dataset.price = productPrice;
+            document.querySelector('.add-to-cart-detail-btn').dataset.unit = productUnit;
+            document.querySelector('.add-to-cart-detail-btn').dataset.image = productImage;
+            
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById('productDetailModal'));
+            modal.show();
+        });
+    });
+    
+    // Product detail quantity buttons
+    document.querySelector('.decrease-qty-btn').addEventListener('click', function() {
+        const qtyInput = document.querySelector('.product-detail-qty');
+        let qty = parseInt(qtyInput.value);
+        if (qty > 1) {
+            qtyInput.value = qty - 1;
         }
-
-        // Apply search filter
-        const searchTerm = searchInput.value.toLowerCase();
-        if (searchTerm) {
-            allProducts = allProducts.filter(product => 
-                product.name.toLowerCase().includes(searchTerm)
-            );
-        }
-
-        // Apply sort
-        switch (currentSort) {
-            case 'price-low':
-                allProducts.sort((a, b) => a.price - b.price);
-                break;
-            case 'price-high':
-                allProducts.sort((a, b) => b.price - a.price);
-                break;
-            case 'newest':
-                // In a real app, would sort by date added
-                break;
-            default: // 'popular'
-                // In a real app, would sort by popularity metrics
-                break;
-        }
-
-        return allProducts;
-    }
-
-    // Update product display
-    function updateProducts() {
-        const allProducts = getAllProducts();
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        const pageProducts = allProducts.slice(startIndex, endIndex);
-
-        const productsGrid = document.querySelector('.row.g-4');
-        productsGrid.innerHTML = pageProducts.map(product => `
-            <div class="col-md-4 col-lg-3">
-                <div class="card product-card">
-                    <img src="${product.image}" class="card-img-top" alt="${product.name}">
-                    <div class="card-body">
-                        <h5 class="card-title">${product.name}</h5>
-                        <p class="card-text">Quality produce from local farmers</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="h5 mb-0">K${product.price}/${product.unit}</span>
-                            <button class="btn btn-success btn-sm" onclick="addToCart('${product.id}')">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `).join('');
-
-        updatePagination();
-    }
-
-    // Update pagination controls
-    function updatePagination() {
-        const totalProducts = getAllProducts().length;
-        const totalPages = Math.ceil(totalProducts / itemsPerPage);
-        const pagination = document.querySelector('.pagination');
+    });
+    
+    document.querySelector('.increase-qty-btn').addEventListener('click', function() {
+        const qtyInput = document.querySelector('.product-detail-qty');
+        let qty = parseInt(qtyInput.value);
+        qtyInput.value = qty + 1;
+    });
+    
+    // Add to cart from detail modal
+    document.querySelector('.add-to-cart-detail-btn').addEventListener('click', function() {
+        const productId = this.dataset.id;
+        const productName = this.dataset.name;
+        const productPrice = parseFloat(this.dataset.price);
+        const productUnit = this.dataset.unit;
+        const productImage = this.dataset.image;
+        const quantity = parseInt(document.querySelector('.product-detail-qty').value);
         
-        let paginationHTML = `
-            <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                <a class="page-link" href="#" tabindex="-1">Previous</a>
-            </li>
-        `;
-
-        for (let i = 1; i <= totalPages; i++) {
-            paginationHTML += `
-                <li class="page-item ${currentPage === i ? 'active' : ''}">
-                    <a class="page-link" href="#">${i}</a>
-                </li>
-            `;
-        }
-
-        paginationHTML += `
-            <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-                <a class="page-link" href="#">Next</a>
-            </li>
-        `;
-
-        pagination.innerHTML = paginationHTML;
-
-        // Reattach event listeners
-        document.querySelectorAll('.pagination .page-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const page = this.textContent;
-                if (page === 'Previous') {
-                    if (currentPage > 1) currentPage--;
-                } else if (page === 'Next') {
-                    if (currentPage < totalPages) currentPage++;
-                } else {
-                    currentPage = parseInt(page);
-                }
-                updateProducts();
-            });
-        });
-    }
-
+        addToCart(productId, productName, productPrice, productUnit, productImage, quantity);
+        
+        // Close modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('productDetailModal'));
+        modal.hide();
+    });
+    
     // Cart functions
-    function addToCart(productId) {
-        const product = findProduct(productId);
-        if (!product) return;
-
+    function addToCart(productId, productName, productPrice, productUnit, productImage, quantity = 1) {
+        // Check if product is already in cart
         const existingItem = cart.find(item => item.id === productId);
         if (existingItem) {
-            existingItem.quantity++;
+            existingItem.quantity += quantity;
         } else {
-            cart.push({ ...product, quantity: 1 });
+            cart.push({
+                id: productId,
+                name: productName,
+                price: productPrice,
+                unit: productUnit,
+                image: productImage,
+                quantity: quantity
+            });
         }
 
+        // Save to localStorage
+        localStorage.setItem('agricoolCart', JSON.stringify(cart));
+        
         updateCartDisplay();
-        showNotification(`Added ${product.name} to cart`);
+        updateCartBadge();
+        updateCheckoutButton();
+        showNotification(`${productName} added to cart`);
     }
 
     function findProduct(productId) {
@@ -219,6 +128,16 @@ document.addEventListener('DOMContentLoaded', function() {
             if (product) return product;
         }
         return null;
+    }
+
+    function updateCartBadge() {
+        const cartCountElements = document.querySelectorAll('.cart-count');
+        const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+        
+        cartCountElements.forEach(element => {
+            element.textContent = totalItems;
+            element.style.display = totalItems > 0 ? 'inline' : 'none';
+        });
     }
 
     function updateCartDisplay() {

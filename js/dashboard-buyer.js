@@ -30,17 +30,38 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Orders Chart
-    const ordersCtx = document.getElementById('ordersChart');
-    if (ordersCtx) {
-        new Chart(ordersCtx, {
+    // Spending Chart
+    const spendingCtx = document.getElementById('spendingChart');
+    if (spendingCtx) {
+        // Get monthly spending data from the data attribute
+        let monthlySpendingData = {};
+        try {
+            monthlySpendingData = JSON.parse(spendingCtx.getAttribute('data-spending') || '{}');
+        } catch (e) {
+            console.error('Error parsing monthly spending data:', e);
+            monthlySpendingData = {};
+        }
+        
+        // Prepare chart data
+        const months = Object.keys(monthlySpendingData).length > 0 ? 
+            Object.keys(monthlySpendingData) : 
+            ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+            
+        const spendingValues = Object.keys(monthlySpendingData).length > 0 ? 
+            Object.values(monthlySpendingData) : 
+            [0, 0, 0, 0, 0, 0];
+        
+        new Chart(spendingCtx, {
             type: 'line',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                labels: months,
                 datasets: [{
-                    label: 'Orders',
-                    data: [15, 22, 18, 25, 30, 28],
+                    label: 'Monthly Spending (K)',
+                    data: spendingValues,
                     borderColor: '#198754',
+                    backgroundColor: 'rgba(25, 135, 84, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
                     tension: 0.4
                 }]
             },
@@ -49,7 +70,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        display: false
+                        display: true,
+                        position: 'top'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return 'K' + context.raw.toLocaleString();
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return 'K' + value.toLocaleString();
+                            }
+                        }
                     }
                 }
             }

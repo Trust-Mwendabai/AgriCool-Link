@@ -9,8 +9,16 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
-}
 
+}
+body {
+    background-image: url('../images/cold_storage_box.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* This makes the background image static */
+    color: white; /* Ensures text is visible on the background */
+}
 /* Navbar Styling */
 .navbar {
     padding: 1rem 0;

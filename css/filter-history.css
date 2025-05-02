@@ -1,0 +1,76 @@
+/* Filter History and Saved Filters Styling */
+
+/* Tab Navigation */
+#filterTabs .nav-link {
+    color: #495057;
+    font-weight: 500;
+    border-radius: 0;
+    border: none;
+    padding: 0.5rem 1rem;
+}
+
+#filterTabs .nav-link.active {
+    color: #198754;
+    background-color: transparent;
+    border-bottom: 2px solid #198754;
+}
+
+#filterTabs .nav-link:hover:not(.active) {
+    color: #157347;
+    border-bottom: 2px solid #e9ecef;
+}
+
+/* Filter History Items */
+.filter-history, .saved-filters {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.filter-history-item, .saved-filter-item {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.filter-history-item:last-child, .saved-filter-item:last-child {
+    border-bottom: none;
+}
+
+.filter-history-link, .saved-filter-link {
+    text-decoration: none;
+    color: #212529;
+    display: block;
+    flex-grow: 1;
+    padding-right: 0.5rem;
+}
+
+.filter-history-link:hover, .saved-filter-link:hover {
+    color: #198754;
+}
+
+.filter-label, .filter-name {
+    font-weight: 500;
+}
+
+.filter-actions {
+    white-space: nowrap;
+}
+
+.filter-actions .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+}
+
+/* Scrollbar styling */
+.filter-history::-webkit-scrollbar, .saved-filters::-webkit-scrollbar {
+    width: 5px;
+}
+
+.filter-history::-webkit-scrollbar-track, .saved-filters::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+}
+
+.filter-history::-webkit-scrollbar-thumb, .saved-filters::-webkit-scrollbar-thumb {
+    background-color: #198754;
+    border-radius: 10px;
+}
